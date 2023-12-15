@@ -1,14 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calculadora de Tempo</title>
-    <link rel="stylesheet" href="styles.css">
+    <link id="stylesheet" rel="stylesheet" href="styles.css">
 </head>
+
 <body>
+    <button onclick="alternarTema()">Alternar Tema</button>
     <h1>Calculadora de Tempo</h1>
-    
+
     <div class="input-grid">
         <label for="nomeInput">Nome:</label>
         <input type="text" id="nomeInput">
@@ -22,6 +25,20 @@
     <h2>Feriados 2024</h2>
     <ul id="feriados" class="feriados-list"></ul>
 
+    <button onclick="exportarDatas()">Exportar Datas</button>
+
     <script src="script.js"></script>
+
+    <script>
+        function alternarTema() {
+            var stylesheet = document.getElementById('stylesheet');
+            if (stylesheet.href.includes('styles.css')) {
+                stylesheet.href = 'styles-tema-claro.css';
+            } else {
+                stylesheet.href = 'styles.css';
+            }
+        }
+    </script>
 </body>
+
 </html>

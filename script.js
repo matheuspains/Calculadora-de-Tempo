@@ -61,7 +61,7 @@ function adicionarData() {
 
     // Adicionar a data ao array com um ID único
     var dataInserida = {
-        id: Date.now(), // Usando timestamp como ID unico
+        id: Date.now(), // Usando timestamp como ID único
         nome: nome,
         data: dataEscolhida
     };
@@ -75,13 +75,12 @@ function adicionarData() {
     exibirDatasInseridas();
 }
 
-// Função para exibir datas inseridas
 function exibirDatasInseridas() {
     var resultado = document.getElementById('resultado');
     resultado.innerHTML = '';
 
-    // Iterar sobre as datas inseridas e exibi-las
-    datasInseridas.forEach(function (item) {
+    // Iterar sobre as datas inseridas e exibir
+    datasInseridas.forEach(function (item, index) {
         // Calcular a diferença de tempo para cada data inserida
         var diferencaTempo = item.data.getTime() - new Date().getTime();
         var dias = Math.floor(diferencaTempo / (1000 * 60 * 60 * 24));
@@ -89,20 +88,33 @@ function exibirDatasInseridas() {
         var minutos = Math.floor((diferencaTempo % (1000 * 60 * 60)) / (1000 * 60));
         var segundos = Math.floor((diferencaTempo % (1000 * 60)) / 1000);
 
+        // Criar um elemento resultado-item
         var resultadoItem = document.createElement('div');
         resultadoItem.className = 'resultado-item';
 
-        // Exibir o resultado e adicionar o botão de remover
+        // Exibir o resultado
         resultadoItem.innerHTML = `Faltam ${dias} dias, ${horas} horas, ${minutos} minutos e ${segundos} segundos para ${item.nome}.`;
+
+        // Adicionar a linha horizontal
+        var linhaHorizontal = document.createElement('hr');
+        linhaHorizontal.style.borderTop = '2px solid #cd8a39';
+        resultadoItem.appendChild(linhaHorizontal);
+
+        // Adicionar o botão de remover
         var botaoRemover = document.createElement('button');
         botaoRemover.textContent = 'Remover';
         botaoRemover.onclick = function () {
-            removerData(item.id);
+            removerData(item.id); // Corrigido para passar o ID correto
         };
         resultadoItem.appendChild(botaoRemover);
 
-        // Appendar o resultado
+        // Append resultado
         resultado.appendChild(resultadoItem);
+
+        // Adicionar espaçamento entre os elementos
+        var espacamento = document.createElement('div');
+        espacamento.style.height = '10px';
+        resultado.appendChild(espacamento);
     });
 }
 
@@ -120,6 +132,39 @@ function removerData(id) {
         // Atualizar a exibição das datas inseridas
         exibirDatasInseridas();
     }
+}
+
+function exportarDatas() {
+    // Verifica se há datas a serem exportadas
+    if (datasInseridas.length === 0) {
+        alert('Não há datas para exportar.');
+        return;
+    }
+
+    // Mapeia as datas para um formato exportável
+    var dadosExportados = datasInseridas.map(function (item) {
+        var diferencaTempo = item.data.getTime() - new Date().getTime();
+        var diasFaltando = Math.floor(diferencaTempo / (1000 * 60 * 60 * 24));
+
+        return {
+            nome: item.nome,
+            data: item.data.toISOString(), // Exporta a data no formato ISO
+            diasFaltando: diasFaltando
+        };
+    });
+
+    // Converte os dados para o formato JSON
+    var dadosExportadosJSON = JSON.stringify(dadosExportados, null, 2);
+
+    // Cria um link de download para o usuário
+    var linkDownload = document.createElement('a');
+    linkDownload.href = 'data:text/json;charset=utf-8,' + encodeURIComponent(dadosExportadosJSON);
+    linkDownload.download = 'datas_exportadas.json';
+
+    // Adiciona o link ao corpo do documento e simula um clique
+    document.body.appendChild(linkDownload);
+    linkDownload.click();
+    document.body.removeChild(linkDownload);
 }
 
 // Chamar a função para adicionar feriados

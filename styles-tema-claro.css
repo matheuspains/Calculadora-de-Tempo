@@ -1,0 +1,41 @@
+/* styles-tema-claro.css */
+
+body {
+    background-color: #f0f0f0;
+}
+
+h1,
+h2 {
+    color: #2c3e50;
+}
+
+label {
+    color: #34495e;
+}
+
+button {
+    background-color: #3498db;
+    color: #fff;
+}
+
+button:hover {
+    background-color: #2980b9;
+}
+
+#resultado {
+    color: #2c3e50 !important;
+}
+
+.feriados-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+li {
+    color: #34495e;
+}
+
+li button {
+    color: #e74c3c;
+}
